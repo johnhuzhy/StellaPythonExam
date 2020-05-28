@@ -39,19 +39,18 @@ sum_strength = 0
 def l1():
     return l1_value, l1_value_diamond
 
+
 # 1级到3级需要的石头，金，体力
-
-
 def l1tol3():
-    l3_gold = l3_diamond = l3_diamond = 0
+    l3_gold = l3_diamond = l3_strength = 0
     l1_gold, l1_value_diamond = l1()
     l3_stone = l1_to_l3+1      # 12 level 1 ES + level1 ES
     l3_gold += l3_stone*l1_gold
     l3_diamond += l3_stone*l1_value_diamond
     l3_gold += l1_to_l3_value     # 0.39 Gold
-    l3_diamond += l1_to_l3_strength  # 10 Strength
+    l3_strength += l1_to_l3_strength  # 10 Strength
 
-    return l3_gold, l3_diamond, l3_diamond
+    return l3_gold, l3_diamond, l3_strength
 
 
 # 3级到4级需要的石头，金，体力，概率
@@ -63,8 +62,10 @@ def l3tol4():
         # 3级所需要的金，钻石，体力
         _l3_gold, _l3_diamond, _l3_strength = l1tol3()
         l4_gold += l3_to_l4 * _l1_gold  # l3_to_l4 = 16  16 level1 ES + level3 ES
+        l4_gold += _l3_gold
         l4_gold += l3_to_l4_value  # l3_to_l4_value = 0.897  # 0.897 Gold
         l4_diamond += l3_to_l4 * _l1_diamond
+        l4_diamond += _l3_diamond
         l4_strength += _l3_strength
         rate = random()
         print(f"ランダム:{rate:.4f}")
@@ -97,4 +98,4 @@ l6_gold, l6_diamond, l6_strength = l4tol6()
 # 1 diamond = 0.78 gold
 # 1 tili = 1 gold
 total_gold = l6_diamond*0.78 + l6_strength*1 + l6_gold
-print("生成費用：", total_gold)
+print(f"生成費用：{total_gold:.2f}")
